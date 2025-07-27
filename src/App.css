@@ -14,11 +14,14 @@ body {
     display: flex;
     justify-content: space-between;
     /* background-color: rgb(54, 52, 180); */
-    background-color: #F46036;
+    /* background-color: #F46036; */
+    background-color: white;
     align-items: center;
-    color: white;
+    color: black;
     padding: 0 20px;
     font-size: large;
+    
+    border-bottom: 2px solid #2E294E;
 }
 
 .userAuth {
@@ -208,7 +211,7 @@ body {
 }
 
 .deleteBtn {
-    color: red;
+    color: rgb(43, 43, 180);
     border: none;
     padding: 10px 20px;
     border-radius: 5px;
@@ -232,19 +235,20 @@ body {
 }
 
 h3 {
-    color: #D7263D;
+    color: rgb(43, 43, 180);
 }
 
 
 /* btn Submit */
 
 .btnSubmit button {
-    background-color: rgb(43, 43, 180);
+    background-color: rgb(255, 255, 255);
     width: 6rem;
-    color: white;
+    color: rgb(0, 0, 0);
     padding: 10px 0;
     margin-bottom: 20px;
     border-radius: 5px;
+    border: 2px solid rgb(43, 43, 180);
 }
 
 

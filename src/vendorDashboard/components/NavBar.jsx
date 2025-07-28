@@ -11,7 +11,7 @@ const NavBar = ({showLoginHandler, showRegisterHandler, showLogOut, logOutHandle
             Food-fantacy Dashboard
         </div>
         <div className="firmName">
-            <h4>Firname : {firmName}</h4>
+            <h4>Restaurant : {firmName}</h4>
         </div>
         <div className="userAuth">
           {!showLogOut ?  <>

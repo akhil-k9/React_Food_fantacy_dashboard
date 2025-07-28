@@ -14,6 +14,7 @@ const SideBar = ({
         <li onClick={showAllProductsHandler}>All Products</li>
         <li>User Details</li>
       </ul>
+      <img src="/assets/FF-Logo.png" alt="logo" className="ff-logo" />
     </div>
   );
 };

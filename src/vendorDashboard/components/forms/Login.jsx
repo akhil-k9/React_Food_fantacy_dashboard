@@ -14,43 +14,90 @@ const Login = ({showWelcomeHandler}) => {
   }
   
 
-  const loginHandler = async(e)=>{
-      e.preventDefault();
-    setLoading(true); 
-      try {
-          const response = await fetch(`${API_URL}/vendor/login`, {
-            method: 'POST',
-            headers:{
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({email, password})
-          })
-          const data = await response.json();
-          if(response.ok){
-            alert('Login success');
-            setEmail("");
-            setPassword("");
-            localStorage.setItem('loginToken', data.token);
-            showWelcomeHandler()
+  // const loginHandler = async(e)=>{
+  //     e.preventDefault();
+  //   setLoading(true); 
+  //     try {
+  //         const response = await fetch(`${API_URL}/vendor/login`, {
+  //           method: 'POST',
+  //           headers:{
+  //             'Content-Type': 'application/json'
+  //           },
+  //           body: JSON.stringify({email, password})
+  //         })
+  //         const data = await response.json();
+  //         if(response.ok){
+  //           alert('Login success');
+  //           setEmail("");
+  //           setPassword("");
+  //           localStorage.setItem('loginToken', data.token);
+  //           showWelcomeHandler()
 
-          }
-          const vendorId = data.vendorId
-          console.log("checking for VendorId:",vendorId)
-          const vendorResponse = await fetch(`${API_URL}/vendor/single-vendor/${vendorId}`)
-          window.location.reload()
-          const vendorData = await vendorResponse.json();
-          if(vendorResponse.ok){
-            const vendorFirmId = vendorData.vendorFirmId;
-            const vendorFirmName = vendorData.vendor.firm[0].firmName;
-            localStorage.setItem('firmId', vendorFirmId);
-            localStorage.setItem('firmName', vendorFirmName)
-          }
-      } catch (error) {
-          alert("login fail")
-      } finally {
-        setLoading(false); 
-      }
+  //         }
+  //         const vendorId = data.vendorId
+  //         console.log("checking for VendorId:",vendorId)
+  //         const vendorResponse = await fetch(`${API_URL}/vendor/single-vendor/${vendorId}`)
+  //         window.location.reload()
+  //         const vendorData = await vendorResponse.json();
+  //         if(vendorResponse.ok){
+  //           const vendorFirmId = vendorData.vendorFirmId;
+  //           const vendorFirmName = vendorData.vendor.firm[0].firmName;
+  //           localStorage.setItem('firmId', vendorFirmId);
+  //           localStorage.setItem('firmName', vendorFirmName)
+  //         }
+  //     } catch (error) {
+  //         alert("login fail")
+  //     } finally {
+  //       setLoading(false); 
+  //     }
+  // }
+
+const loginHandler = async(e)=>{
+  e.preventDefault();
+  if (!email || !password) {
+    alert("Please enter both email and password.");
+    return;
   }
+  setLoading(true);
+  try {
+    const response = await fetch(`${API_URL}/vendor/login`, {
+      method: 'POST',
+      headers:{ 'Content-Type': 'application/json' },
+      body: JSON.stringify({email, password})
+    });
+    const data = await response.json();
+    if(response.ok){
+      alert('Login success');
+      setEmail("");
+      setPassword("");
+      localStorage.setItem('loginToken', data.token);
+      showWelcomeHandler();
+
+      const vendorId = data.vendorId;
+      console.log("VendorId:", vendorId);
+
+      const vendorResponse = await fetch(`${API_URL}/vendor/single-vendor/${vendorId}`);
+      const vendorData = await vendorResponse.json();
+      if(vendorResponse.ok){
+        const vendorFirmId = vendorData.vendorFirmId;
+        const vendorFirmName = vendorData.vendor.firm[0].firmName;
+        localStorage.setItem('firmId', vendorFirmId);
+        localStorage.setItem('firmName', vendorFirmName);
+      }
+
+      window.location.reload(); // ✅ Safe to reload now
+    } else {
+      alert(data.error || "Invalid credentials");
+    }
+  } catch (error) {
+    console.error("Login error:", error);
+    alert("Login failed. Please try again.");
+  } finally {
+    setLoading(false);
+  }
+}
+
+
 
   return (
     <div className="loginSection">
